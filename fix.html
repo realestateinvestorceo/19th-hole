@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 19th Hole — Deck Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Jost:wght@300;400;500&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A55A;--gold-lt:#E8CC8A;--gold-dk:#9A7A35;
+  --dark:#08160F;--mid:#0E1E14;--card:#142A1E;
+  --white:#FFFFFF;--cream:#F0EAD6;--muted:#7A9E8A;--acc:#3DB870;
+}
+html,body{width:100%;min-height:100vh;background:var(--dark);font-family:'Jost',sans-serif;color:var(--cream);}
+body{display:flex;flex-direction:column;align-items:center;padding:2rem 1rem;}
+
+.container{width:100%;max-width:640px;}
+
+/* Header */
+.header{text-align:center;margin-bottom:2rem;}
+.xix-badge-sm{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  width:60px;height:60px;border:1px solid var(--gold);position:relative;margin-bottom:.8rem;}
+.xix-badge-sm::before,.xix-badge-sm::after{content:'';position:absolute;background:var(--gold-dk);height:1px;width:calc(100% + 8px);left:-4px;}
+.xix-badge-sm::before{top:-3px;}.xix-badge-sm::after{bottom:-3px;}
+.xix-badge-sm .num{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:600;color:var(--gold);letter-spacing:.08em;line-height:1;}
+h1{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--white);margin-bottom:.3rem;}
+.subtitle{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.25em;color:var(--gold-dk);}
+
+/* Password gate */
+#auth-gate{margin-bottom:1.5rem;}
+#auth-gate label{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.15em;color:var(--gold);display:block;margin-bottom:.5rem;}
+.input-row{display:flex;gap:.5rem;}
+input[type="password"],input[type="text"]{
+  flex:1;background:var(--card);border:1px solid rgba(180,140,60,.25);color:var(--cream);
+  padding:.6rem .9rem;font-family:'Jost',sans-serif;font-size:.95rem;outline:none;
+  transition:border-color .2s;}
+input:focus{border-color:var(--gold);}
+button{
+  background:transparent;border:1px solid var(--gold);color:var(--gold);
+  font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.15em;
+  padding:.6rem 1.2rem;cursor:pointer;transition:all .2s;white-space:nowrap;}
+button:hover{background:rgba(180,140,60,.15);}
+button:disabled{opacity:.4;cursor:not-allowed;}
+
+/* Editor */
+#editor{display:none;}
+.editor-label{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.15em;color:var(--gold);display:block;margin-bottom:.5rem;}
+textarea{
+  width:100%;min-height:120px;background:var(--card);border:1px solid rgba(180,140,60,.25);
+  color:var(--cream);padding:.9rem;font-family:'Jost',sans-serif;font-size:.95rem;
+  line-height:1.6;resize:vertical;outline:none;transition:border-color .2s;}
+textarea:focus{border-color:var(--gold);}
+textarea::placeholder{color:var(--muted);font-style:italic;}
+#submit-btn{width:100%;margin-top:.7rem;padding:.75rem;font-size:.72rem;}
+#submit-btn.loading{border-color:var(--muted);color:var(--muted);}
+
+/* Status */
+#status{margin-top:1rem;min-height:2rem;}
+.status-msg{padding:.8rem 1rem;border-left:3px solid;font-size:.9rem;line-height:1.5;}
+.status-msg.info{border-color:var(--gold);background:rgba(20,42,30,.5);color:var(--cream);}
+.status-msg.success{border-color:var(--acc);background:rgba(20,42,30,.5);color:var(--acc);}
+.status-msg.error{border-color:#c44;background:rgba(40,20,20,.5);color:#f88;}
+.status-msg a{color:var(--gold);text-decoration:underline;}
+
+/* Recent changes */
+#recent{margin-top:2rem;}
+.recent-title{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:var(--gold-dk);margin-bottom:.6rem;}
+.recent-item{font-size:.82rem;color:var(--muted);padding:.35rem 0;border-bottom:1px solid rgba(180,140,60,.07);}
+.recent-time{font-size:.7rem;color:rgba(180,140,60,.4);margin-right:.5rem;}
+
+/* Tips */
+.tips{margin-top:2rem;padding:1rem;background:rgba(20,42,30,.35);border:1px solid rgba(180,140,60,.1);}
+.tips-title{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;color:var(--gold-dk);margin-bottom:.5rem;}
+.tip{font-size:.82rem;color:var(--muted);line-height:1.6;padding:.15rem 0;}
+
+/* Preview link */
+.preview-link{display:inline-block;margin-top:1rem;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;
+  color:var(--gold);border:1px solid rgba(180,140,60,.3);padding:.4rem .9rem;text-decoration:none;transition:all .2s;}
+.preview-link:hover{background:rgba(180,140,60,.15);border-color:var(--gold);}
+
+/* Spinner */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--muted);border-top-color:var(--gold);
+  border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:.5rem;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="xix-badge-sm"><div class="num">XIX</div></div>
+    <h1>Deck Editor</h1>
+    <div class="subtitle">THE 19TH HOLE</div>
+  </div>
+
+  <!-- Password Gate -->
+  <div id="auth-gate">
+    <label>PASSWORD</label>
+    <div class="input-row">
+      <input type="password" id="pw-input" placeholder="Enter editor password" autocomplete="off">
+      <button id="pw-btn" onclick="unlock()">UNLOCK</button>
+    </div>
+    <div id="pw-error" style="font-size:.8rem;color:#f88;margin-top:.4rem;display:none;"></div>
+  </div>
+
+  <!-- Editor (hidden until authenticated) -->
+  <div id="editor">
+    <label class="editor-label">WHAT DO YOU WANT TO CHANGE?</label>
+    <textarea id="instruction" placeholder="Example: Change $3.9M to $3.8M on slide 13&#10;Example: Fix the typo on slide 5&#10;Example: Change Zach's phone to (435) 555-1234"></textarea>
+    <button id="submit-btn" onclick="submitEdit()">MAKE CHANGE</button>
+
+    <div id="status"></div>
+
+    <a href="/" target="_blank" class="preview-link">PREVIEW DECK →</a>
+
+    <div id="recent">
+      <div class="recent-title">RECENT CHANGES</div>
+      <div id="recent-list"></div>
+    </div>
+
+    <div class="tips">
+      <div class="tips-title">TIPS</div>
+      <div class="tip">• Reference slides by number: "On slide 13, change..."</div>
+      <div class="tip">• Be specific: "Change $325,000 to $300,000"</div>
+      <div class="tip">• One change at a time works best</div>
+      <div class="tip">• Changes go live in about 30 seconds</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Check if already authenticated this session
+if (sessionStorage.getItem('editorPw')) {
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('editor').style.display = 'block';
+}
+loadRecent();
+
+// Enter key on password field
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') unlock();
+});
+
+function unlock() {
+  const pw = document.getElementById('pw-input').value;
+  if (!pw) return;
+  // Store and reveal editor — real validation happens server-side on each API call
+  sessionStorage.setItem('editorPw', pw);
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('editor').style.display = 'block';
+  document.getElementById('pw-error').style.display = 'none';
+}
+
+async function submitEdit() {
+  const btn = document.getElementById('submit-btn');
+  const statusEl = document.getElementById('status');
+  const instruction = document.getElementById('instruction').value.trim();
+  const pw = sessionStorage.getItem('editorPw');
+
+  if (!instruction) {
+    statusEl.innerHTML = '<div class="status-msg error">Please describe what you want to change.</div>';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.classList.add('loading');
+  btn.textContent = 'WORKING...';
+  statusEl.innerHTML = '<div class="status-msg info"><span class="spinner"></span>Sending to AI and applying changes...</div>';
+
+  try {
+    const res = await fetch('/api/edit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw, instruction })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        // Bad password — clear session and show auth gate
+        sessionStorage.removeItem('editorPw');
+        document.getElementById('auth-gate').style.display = 'block';
+        document.getElementById('editor').style.display = 'none';
+        document.getElementById('pw-error').textContent = 'Incorrect password. Please try again.';
+        document.getElementById('pw-error').style.display = 'block';
+        document.getElementById('pw-input').value = '';
+      } else {
+        statusEl.innerHTML = `<div class="status-msg error">${escHtml(data.error || 'Something went wrong.')}</div>`;
+      }
+      return;
+    }
+
+    // Success
+    const commitLink = data.commitUrl ? ` <a href="${escHtml(data.commitUrl)}" target="_blank">View commit</a>` : '';
+    statusEl.innerHTML = `<div class="status-msg success">Change applied! Live in ~30 seconds.${commitLink}</div>`;
+    document.getElementById('instruction').value = '';
+
+    // Save to recent
+    addRecent(instruction);
+
+  } catch (err) {
+    statusEl.innerHTML = '<div class="status-msg error">Network error. Please check your connection and try again.</div>';
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    btn.textContent = 'MAKE CHANGE';
+  }
+}
+
+function escHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function addRecent(instruction) {
+  const recent = JSON.parse(localStorage.getItem('deckEdits') || '[]');
+  recent.unshift({ text: instruction, time: new Date().toISOString() });
+  if (recent.length > 10) recent.length = 10;
+  localStorage.setItem('deckEdits', JSON.stringify(recent));
+  loadRecent();
+}
+
+function loadRecent() {
+  const recent = JSON.parse(localStorage.getItem('deckEdits') || '[]');
+  const el = document.getElementById('recent-list');
+  if (!el) return;
+  if (recent.length === 0) {
+    el.innerHTML = '<div class="recent-item" style="font-style:italic;">No changes yet</div>';
+    return;
+  }
+  el.innerHTML = recent.map(r => {
+    const ago = timeAgo(new Date(r.time));
+    return `<div class="recent-item"><span class="recent-time">${ago}</span>${escHtml(r.text)}</div>`;
+  }).join('');
+}
+
+function timeAgo(date) {
+  const s = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return Math.floor(s / 60) + ' min ago';
+  if (s < 86400) return Math.floor(s / 3600) + ' hr ago';
+  return Math.floor(s / 86400) + ' day(s) ago';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/fix", "destination": "/fix.html" }
+  ],
+  "functions": {
+    "api/edit.js": {
+      "maxDuration": 60
+    }
+  }
+}
