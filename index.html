@@ -12,7 +12,7 @@
   --dark:#08160F;--mid:#0E1E14;--card:#142A1E;
   --white:#FFFFFF;--cream:#F0EAD6;--muted:#7A9E8A;--acc:#3DB870;
 }
-html,body{width:100%;height:100%;overflow:hidden;background:#08160F;font-family:'Jost',sans-serif;color:var(--cream);}
+html{font-size:20px;}html,body{width:100%;height:100%;overflow:hidden;background:#08160F;font-family:'Jost',sans-serif;color:var(--cream);}
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
   opacity:0.5;
@@ -124,7 +124,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 .deal-lbl{font-size:.9rem;color:var(--muted);margin-top:.3rem;}
 
 /* FUNDS */
-.funds-bar{display:flex;height:3.2rem;border:1px solid rgba(180,140,60,.2);overflow:hidden;margin:.7rem 0;}
+.funds-bar{display:flex;height:3.8rem;border:1px solid rgba(180,140,60,.2);overflow:hidden;margin:.7rem 0;}
 .f-seg{display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:500;color:#fff;letter-spacing:.04em;}
 .funds-card{background:rgba(8,22,15,.9);padding:1rem;}
 .funds-card::before{content:'';display:block;height:2px;margin-bottom:.7rem;}
@@ -201,6 +201,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 
 /* RESPONSIVE — TABLET */
 @media(max-width:1024px){
+  html{font-size:19px;}
   .fs{padding:2rem 2.5rem;}
   .bio-pane{padding:1.6rem 2rem;}
   .bio-grid{grid-template-columns:1fr !important;grid-template-rows:40vh 1fr !important;height:auto !important;min-height:100%;}
@@ -218,6 +219,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
 
 /* RESPONSIVE — MOBILE */
 @media(max-width:768px){
+  html{font-size:18px;}
   .slide{align-items:flex-start;}
   .fs{padding:1.5rem 1.2rem;}
   .sh{margin-bottom:.8rem;}
@@ -577,16 +579,16 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
     <div class="gline"></div>
     <h2 class="display" style="font-size:clamp(1.7rem,3vw,2.4rem);margin-bottom:.7rem;">How We'll Deploy $3.9M</h2>
     <div class="funds-bar">
-      <div class="f-seg" style="width:62%;background:#1A3528;">62%</div>
-      <div class="f-seg" style="width:20%;background:#2D5A40;">20%</div>
+      <div class="f-seg" style="width:62%;background:#3DB870;">62%</div>
+      <div class="f-seg" style="width:20%;background:#2A7A50;">20%</div>
       <div class="f-seg" style="width:12%;background:#C9A55A;color:#08160F;">12%</div>
-      <div class="f-seg" style="width:6%;background:#4A5A50;font-size:.62rem;">6%</div>
+      <div class="f-seg" style="width:6%;background:#8A7A55;">6%</div>
     </div>
     <div class="g4">
-      <div class="funds-card" style="border-left:3px solid #1A3528;"><div class="f-amt">$2.4M</div><div class="f-lbl">Buildout &amp; Construction</div><div class="f-pct">62% of total raise</div></div>
-      <div class="funds-card" style="border-left:3px solid #2D5A40;"><div class="f-amt">$790K</div><div class="f-lbl">Real Estate Acquisition</div><div class="f-pct">20% of total raise</div></div>
+      <div class="funds-card" style="border-left:3px solid #3DB870;"><div class="f-amt">$2.4M</div><div class="f-lbl">Buildout &amp; Construction</div><div class="f-pct">62% of total raise</div></div>
+      <div class="funds-card" style="border-left:3px solid #2A7A50;"><div class="f-amt">$790K</div><div class="f-lbl">Real Estate Acquisition</div><div class="f-pct">20% of total raise</div></div>
       <div class="funds-card" style="border-left:3px solid var(--gold);"><div class="f-amt">$460K</div><div class="f-lbl">Equipment &amp; Furnishings</div><div class="f-pct">12% of total raise</div></div>
-      <div class="funds-card" style="border-left:3px solid #4A5A50;"><div class="f-amt">$250K</div><div class="f-lbl">Operating &amp; Marketing</div><div class="f-pct">6% of total raise</div></div>
+      <div class="funds-card" style="border-left:3px solid #8A7A55;"><div class="f-amt">$250K</div><div class="f-lbl">Operating &amp; Marketing</div><div class="f-pct">6% of total raise</div></div>
     </div>
   </div>
 </div>
