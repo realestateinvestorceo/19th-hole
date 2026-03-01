@@ -29,29 +29,36 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Step 1: Fetch index.html from GitHub
+    // Step 1: Fetch index.html from GitHub (Trees API for SHA + raw content for file)
+    // The Contents API fails for files >1MB, so we use two separate calls.
     console.log('[edit] Fetching from GitHub...');
     const t0 = Date.now();
 
-    const ghFileRes = await fetch(
-      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/index.html`,
-      {
-        headers: {
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
-          'Accept': 'application/vnd.github.v3+json'
-        }
-      }
-    );
+    const ghHeaders = {
+      'Authorization': `Bearer ${GITHUB_TOKEN}`,
+      'Accept': 'application/vnd.github.v3+json'
+    };
 
-    if (!ghFileRes.ok) {
-      const err = await ghFileRes.text();
-      console.error('[edit] GitHub fetch error:', ghFileRes.status, err.substring(0, 200));
+    // Fetch tree (to get file SHA) and raw content in parallel
+    const [treeRes, rawRes] = await Promise.all([
+      fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees/main`, { headers: ghHeaders }),
+      fetch(`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/index.html`, {
+        headers: { 'Authorization': `Bearer ${GITHUB_TOKEN}` }
+      })
+    ]);
+
+    if (!treeRes.ok || !rawRes.ok) {
+      console.error('[edit] GitHub fetch error: tree=', treeRes.status, 'raw=', rawRes.status);
       return res.status(502).json({ error: 'Could not fetch deck from GitHub.' });
     }
 
-    const ghFile = await ghFileRes.json();
-    const fullHtml = Buffer.from(ghFile.content, 'base64').toString('utf-8');
-    const fileSha = ghFile.sha;
+    const treeData = await treeRes.json();
+    const fileEntry = treeData.tree.find(f => f.path === 'index.html');
+    if (!fileEntry) {
+      return res.status(502).json({ error: 'index.html not found in repository.' });
+    }
+    const fileSha = fileEntry.sha;
+    const fullHtml = await rawRes.text();
     console.log(`[edit] GitHub fetch: ${Date.now() - t0}ms, file size: ${fullHtml.length}`);
 
     // Step 2: Strip base64 images (768KB → ~34KB)
