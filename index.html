@@ -770,13 +770,6 @@ document.addEventListener('touchend', e=>{
   const dx=tx-e.changedTouches[0].clientX;
   if(Math.abs(dx)>50) go(cur+(dx>0?1:-1));
 },{passive:true});
-// Show navigation hint on first load
-const hint = document.createElement("div");
-hint.innerHTML = "Click or tap anywhere to advance →";
-hint.style.cssText = "position:fixed;bottom:3.5rem;left:50%;transform:translateX(-50%);font-family:'Jost',sans-serif;font-size:.8rem;color:var(--gold);opacity:.7;z-index:101;pointer-events:none;transition:opacity 1.5s;";
-document.body.appendChild(hint);
-setTimeout(() => { hint.style.opacity = "0"; }, 3000);
-setTimeout(() => { hint.remove(); }, 4500);
 </script>
 </body>
 </html>
