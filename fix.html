@@ -123,7 +123,7 @@ textarea::placeholder{color:var(--muted);font-style:italic;}
       <div class="tip">• Reference slides by number: "On slide 13, change..."</div>
       <div class="tip">• Be specific: "Change $325,000 to $300,000"</div>
       <div class="tip">• One change at a time works best</div>
-      <div class="tip">• Changes go live in about 30 seconds</div>
+      <div class="tip">• Changes take up to 60 seconds to go live — refresh the deck page to see updates</div>
     </div>
   </div>
 </div>
@@ -193,7 +193,7 @@ async function submitEdit() {
 
     // Success
     const commitLink = data.commitUrl ? ` <a href="${escHtml(data.commitUrl)}" target="_blank">View commit</a>` : '';
-    statusEl.innerHTML = `<div class="status-msg success">Change applied! Live in ~30 seconds.${commitLink}</div>`;
+    statusEl.innerHTML = `<div class="status-msg success">Change applied!${commitLink}<br><br><strong style="color:var(--gold);">⚠ Important:</strong> Refresh <a href="/" target="_blank">19hole.club</a> to see your changes — it may take up to 60 seconds for the update to go live.</div>`;
     document.getElementById('instruction').value = '';
 
     // Save to recent
