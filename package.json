@@ -1,4 +1,5 @@
 {
   "name": "19th-hole",
-  "private": true
+  "private": true,
+  "type": "module"
 }
