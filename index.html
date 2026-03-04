@@ -267,6 +267,16 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
   .proof-n{font-size:1.5rem;}
   .mstat-n{font-size:1.6rem;}
 }
+
+/* PRINT */
+@media print{
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  html,body{overflow:visible !important;height:auto !important;margin:0 !important;}
+  body::after{display:none !important;}
+  #deck{width:auto !important;height:auto !important;overflow:visible !important;position:static !important;display:block !important;}
+  .slide,.slide.active,.slide.exit{position:relative !important;inset:auto !important;top:auto !important;left:auto !important;right:auto !important;bottom:auto !important;opacity:1 !important;transform:none !important;pointer-events:all !important;width:100vw !important;height:100vh !important;page-break-after:always !important;break-after:page !important;page-break-inside:avoid !important;display:flex !important;overflow:visible !important;}
+  #nav-arrows,#nav-dots,#counter{display:none !important;}
+}
 </style>
 </head>
 <body>
@@ -546,7 +556,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
     <div class="deal-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
       <div class="deal-card"><div class="deal-val" style="font-size:2rem;">$325,000</div><div class="deal-lbl">Per Founding Circle Seat · 6.81% Ownership</div></div>
       <div class="deal-card"><div class="deal-val" style="font-size:1.7rem;color:var(--acc);">✓ COMMITTED</div><div class="deal-lbl">Josh &amp; Zach — Seat #1 · Contractor Equity — Seat #2</div></div>
-      <div class="deal-card" style="border-color:var(--acc);"><div class="deal-val" style="color:var(--acc);font-size:2rem;">10 OPEN</div><div class="deal-lbl">Remaining seats available</div></div>
+      <div class="deal-card" style="border-color:var(--acc);"><div class="deal-val" style="color:var(--acc);font-size:2rem;">9 OPEN</div><div class="deal-lbl">Remaining seats available</div></div>
       <div class="deal-card"><div class="deal-val" style="font-size:2rem;">GP</div><div class="deal-lbl">Every partner is a General Partner</div></div>
     </div>
     <div style="margin-top:.8rem;text-align:center;font-size:.75rem;color:var(--muted);font-style:italic;">No passive LPs. Every member of the Founding Circle is an active General Partner. Entity structured as an LLC.</div>
@@ -662,9 +672,9 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
     <div class="xix-badge" style="margin-bottom:1.3rem;"><div class="xix-num">XIX</div><div class="xix-est">EST. 2026</div></div>
     <div class="med-grid">
       <div class="medallion filled"><div class="m-text">JZ·ZS</div><div class="m-sub">$325K ✓</div><div class="m-own">25% Ownership</div></div>
-      <div class="medallion filled"><div class="m-text">CONTR</div><div class="m-sub">EQUITY ✓</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div>
+      <div class="medallion filled"><div class="m-text">CONTR</div><div class="m-sub">EQUITY ✓</div><div class="m-own">6.81%</div></div><div class="medallion filled"><div class="m-text">ATKN</div><div class="m-sub">$325K ✓</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div><div class="medallion"><div class="m-text">XIX</div><div class="m-sub">$325K</div><div class="m-own">6.81%</div></div>
     </div>
-    <p style="font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.2em;color:var(--gold-dk);margin:.6rem 0;">10 SEATS REMAIN &nbsp;·&nbsp; $325,000 PER SEAT &nbsp;·&nbsp; 6.81% OWNERSHIP EACH &nbsp;·&nbsp; THIS CIRCLE CLOSES PERMANENTLY ONCE FILLED</p>
+    <p style="font-family:'Cinzel',serif;font-size:.56rem;letter-spacing:.2em;color:var(--gold-dk);margin:.6rem 0;">9 SEATS REMAIN &nbsp;·&nbsp; $325,000 PER SEAT &nbsp;·&nbsp; 6.81% OWNERSHIP EACH &nbsp;·&nbsp; THIS CIRCLE CLOSES PERMANENTLY ONCE FILLED</p>
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:600;color:var(--white);margin:.7rem 0;">12 Seats.&nbsp; One Legacy.</h2>
     <div style="height:1px;width:3.5rem;background:var(--gold);margin:.5rem auto;"></div>
     <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.92rem;color:var(--muted);">Built for belonging, not just access.</p>
